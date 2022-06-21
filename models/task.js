@@ -18,7 +18,7 @@ const taskSchema = mongoose.Schema({
     level: {
         type: Number,
         min: 1,
-        max: 3,
+        max: 2,
         default: 1
     }
 });

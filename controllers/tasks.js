@@ -1,9 +1,12 @@
 import Task from '../models/task.js';
 
 export const getTasks = async (req, res) => {
-    const arithmeticMethod = req.query.arithmeticMethod ? req.query.arithmeticMethod : 'addition';
-    const level = parsedLevel(req.query.level);
+    const arithmeticMethod = req.query.arithmeticMethod;
+    const level = req.query.level;
     const limit = req.query.limit ? req.query.limit : 100;
+    if (!arithmeticMethod || !level) {
+        return res.status(404).json([]);    
+    }
     try {
         const tasks = await Task.find({arithmeticMethod: arithmeticMethod, level: level})
         .limit(limit)
@@ -28,10 +31,4 @@ export const createTask = async (req, res) => {
     } catch (error) {
         res.status(400).json({'error': 'Could not create task'}); 
     }
-}
-
-const parsedLevel = (levelInput) => {
-    let level = (levelInput && !isNaN(levelInput)) ? Number.parseInt(levelInput, 10) : 1;
-    level = (level > 0 && level < 4) ? level : 1;
-    return level;
 }

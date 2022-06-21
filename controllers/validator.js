@@ -25,7 +25,7 @@ export const validateQuery = (req, res, next) => {
     req.query.arithmeticMethod = 
     (req.query.arithmeticMethod && arithmeticMethodIsValid(req.query.arithmeticMethod)) 
     ? req.query.arithmeticMethod
-    : 'addition';
+    : null;
     req.query.level = parseLevel(req.query.level);
     next();
 }
@@ -43,13 +43,12 @@ const arithmeticMethodIsValid = (arithmeticMethod) => {
     return isValid;
 }
 
-const parseLevel = (levelInput = 1) => {
-    let level = 
-    ((typeof(levelInput) === 'number' || typeof(levelInput) === 'string') 
+const parseLevel = (levelInput) => {
+    let level =
+    ((typeof(levelInput) === 'number' || typeof(levelInput) === 'string')
     && !isNaN(Number.parseInt(levelInput, 10)))
-    ? Number.parseInt(levelInput, 10) 
-    : 1;
-    level = (level > 0 && level < 4) ? level : 1;
+    ? Number.parseInt(levelInput, 10)
+    : 0;
     return level;
 }
 
